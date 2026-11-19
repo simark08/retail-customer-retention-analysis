@@ -1,0 +1,6 @@
+step,rows_left
+0. Raw data (both sheets combined),1067371
+1. Removed copies from the overlapping sheets,1044848
+2. Set aside cancelled invoices (saved as returns.csv),1025683
+3. Removed rows with price <= 0 or quantity <= 0,1019654
+4. Kept only rows with a Customer ID (clean_sales.csv),791045
