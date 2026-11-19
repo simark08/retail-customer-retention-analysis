@@ -1,0 +1,7 @@
+Segment,Customers,Revenue,Avg_Recency_days,Avg_Orders,Avg_Spend,Pct_Customers,Pct_Revenue
+Champions,1473,12027557.1,19.6,15.7,8165.3,25.1,69.0
+Loyal,1230,2551895.4,78.0,5.4,2074.7,20.9,14.6
+At Risk,824,1596304.7,368.6,4.9,1937.3,14.0,9.2
+Hibernating,1527,658982.5,458.1,1.3,431.6,26.0,3.8
+New / Promising,441,393304.4,27.5,1.5,891.8,7.5,2.3
+Needs Attention,383,203507.2,105.5,1.4,531.4,6.5,1.2
