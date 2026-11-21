@@ -1,10 +1,10 @@
 # Retail Customer Retention Analysis
 
-Customer segmentation (RFM) and cohort retention analysis on 1M+ real retail transactions, built with Python and Power BI.
+Customer segmentation (RFM) and cohort retention analysis on 1M+ real retail transactions, built with Python, SQL (MySQL) and Power BI.
 
 **Business question:** Which customers should the business focus on to increase repeat purchases, and what should it do for each group?
 
-> **Status: work in progress.** Data cleaning, RFM segmentation, cohort retention, a statistical test and the first version of the Power BI dashboard are done. SQL analysis and dashboard polish are still to come (see "Next steps").
+> **Status: nearly complete.** Data cleaning, RFM segmentation, cohort retention, a statistical test, a SQL cross-check and the first version of the Power BI dashboard are done. Dashboard polish is still to come (see "Next steps").
 
 ## Data
 UCI **Online Retail II**: transactions of a UK-based online retailer, 1 December 2009 to 9 December 2011.
@@ -20,6 +20,9 @@ Download it from https://archive.ics.uci.edu/dataset/502/online+retail+ii (the r
 | `06_cohort_retention.py` | Retention by first-purchase month |
 | `07_stat_test.py` | Repeat purchase rate and a Mann-Whitney U test (Loyal vs At Risk) |
 | `08_export_powerbi_tables.py` | Tidy tables for the dashboard |
+| `09_load_to_mysql.py` | Loads the cleaned sales (791,045 rows) into MySQL |
+| `10_retail_rfm.sql` | RFM scoring and segments in SQL (CTEs, NTILE, window functions) |
+| `11_retail_cohort_retention.sql` | Cohort retention in SQL (CTEs and joins) |
 
 ## Data quality findings and cleaning
 | Step | Rows left |
@@ -52,6 +55,20 @@ Download it from https://archive.ics.uci.edu/dataset/502/online+retail+ii (the r
 
 **4. At Risk customers spend less than Loyal ones, but still a lot.** Mean spend is 1,937 vs 2,075 and median spend 1,026 vs 1,213; the difference is statistically significant (Mann-Whitney U, p < 0.0001). At Risk customers are far more valuable than Hibernating ones (mean about 432).
 
+## SQL cross-check
+The RFM and retention analyses were repeated in MySQL and compared with the Python results.
+
+| Segment | Python | SQL |
+|---|---|---|
+| Champions | 1,473 | 1,473 |
+| Loyal | 1,230 | 1,231 |
+| At Risk | 824 | 822 |
+| Hibernating | 1,527 | 1,528 |
+| New / Promising | 441 | 441 |
+| Needs Attention | 383 | 383 |
+
+Only 4 of 5,878 customers fall in a different segment, because SQL's `NTILE` and pandas' `qcut` split tied scores slightly differently. The retention table (23.1%, 23.3%, 24.5%, 21.8%, 19.0%, 22.3% at months 1, 2, 3, 6, 9 and 12) matched exactly.
+
 ## Recommendations (to be tested, not proven)
 1. **Protect Champions:** 25% of customers generate 69% of revenue. Prioritise service and track days since their last order.
 2. **Test a win-back offer for At Risk customers** on a sample first. They have high past spend, but their average time since last order is about 369 days, so many may already be lost.
@@ -65,6 +82,5 @@ Download it from https://archive.ics.uci.edu/dataset/502/online+retail+ii (the r
 - The data describes what happened, not why.
 
 ## Next steps
-- Add SQL analysis (load the cleaned data into MySQL and reproduce RFM and cohort retention with SQL window functions)
 - Fix the cohort label sorting in the dashboard heatmap and polish the layout
 - Add the dashboard screenshot and final summary
